@@ -13,3 +13,8 @@
 
 #### <a href="./singlelink/single.c">demo1</a>
 向单向有序递增链表,中插入节点,插入新节点后的链表依然保持递增有序
+
+## 指向函数的指针
+
+#### <a href="./funcpoint/findnode.c">demo1</a>
+通过回掉函数的方式去确认指定的值是否在相关的集合之中,对外统一使用search_node方法, 而回掉函数负责具体的寻找实现
