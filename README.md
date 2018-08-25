@@ -14,6 +14,11 @@
 #### <a href="./singlelink/single.c">demo1</a>
 向单向有序递增链表,中插入节点,插入新节点后的链表依然保持递增有序
 
+## 双向链表
+
+#### <a href="./doublelink/doublelink.c">demo1</a>
+实现了双向链表的增删改查
+
 ## 指向函数的指针
 
 #### <a href="./funcpoint/findnode.c">demo1</a>
