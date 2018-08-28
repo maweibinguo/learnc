@@ -8,6 +8,10 @@
 #### <a href="./string/quchong.c">demo2</a>
 去除掉字符串中重复的字符
 
+#### <a href="./string/decr_encry.c">demo2</a>
+按照指定的key对字符串进行简单的加密和解密(不可用于生产)
+
+## 结构体与联合
 #### <a href="./struct/table.c">demo1</a>
 将用户输入的学生信息打印成表格，输出的形式如下：<br/>
 
