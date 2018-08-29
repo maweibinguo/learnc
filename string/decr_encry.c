@@ -19,7 +19,7 @@ int getchar_position(char *key, char const char_num);
 void encrypt(char * data, char const * key);
 void decrypt(char * data, char const * key);
 
-#if defined(DEBUG)
+#if (DEBUG
 #define DEBUG_PRINT(pointer) printf("%s\n", pointer); exit(EXIT_FAILURE)
 #endif
 
