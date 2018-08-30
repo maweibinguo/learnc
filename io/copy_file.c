@@ -36,4 +36,8 @@ int copy_content(char const * desc, char const * source)
             exit(EXIT_FAILURE);
         }
     }
+
+    fclose(source_fp);
+    fclose(desc_fp);
+    return 1;
 }
