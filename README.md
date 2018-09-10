@@ -37,3 +37,6 @@
 ## I/O 操作
 #### <a href="./io/copy_file.c">demo1</a>
 在命令行中指定目标文件名 和 原标文件名,进行文件的拷贝, 例如: ./a.out new_file_name old_file_name 
+
+#### <a href="./io/component/main.c">demo1</a>
+实现了模块化开发，以双向链表的形式实现了节点的增、删、改、查,并将数据存储到文件中;
