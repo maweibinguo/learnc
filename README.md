@@ -19,16 +19,6 @@
 
 当某人为的职业为学生s时，score/course项要为score；当某人为的职业为教师t时，score/course项要为cour
 
-## 单向链表
-
-#### <a href="./singlelink/single.c">demo1</a>
-向单向有序递增链表,中插入节点,插入新节点后的链表依然保持递增有序
-
-## 双向链表
-
-#### <a href="./doublelink/doublelink.c">demo1</a>
-实现了双向链表的增删改查
-
 ## 指向函数的指针
 
 #### <a href="./funcpoint/findnode.c">demo1</a>
@@ -43,7 +33,17 @@
 
 # 数据结构
 
-## 线性表 - 顺序表
+## 线性表 - 顺序存储 - 顺序表
 
 #### <a href="./datastruct/linearlist/sequence/sequence.c">demo1</a>
 实现了顺序表的增删改查操作
+
+## 线性表 - 链式存储 - 单向链表
+
+#### <a href="./datastruct/linearlist/chain/singlelink/single.c">demo1</a>
+向单向有序递增链表,中插入节点,插入新节点后的链表依然保持递增有序
+
+## 线性表 - 链式存储 - 双向链表
+
+#### <a href="./datastruct/linearlist/chain/doublelink/doublelink.c">demo1</a>
+实现了双向链表的增删改查
