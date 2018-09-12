@@ -40,3 +40,10 @@
 
 #### <a href="./io/component/main.c">demo2</a>
 实现了模块化开发，以双向链表的形式实现了节点的增、删、改、查,并将数据存储到文件中;
+
+# 数据结构
+
+## 线性表 - 顺序表
+
+#### <a href="./datastruct/linearlist/sequence/sequence.c">demo1</a>
+实现了顺序表的增删改查操作
