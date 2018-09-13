@@ -144,7 +144,7 @@ static traverse(sqlist * list)
 
 void main()
 {
-    //定义静态链表，向系统要内存
+    //定义顺序链表，向系统要内存, 所有的存储的数据内存都已经在此时得到
     sqlist list;
 
     //初始化数据

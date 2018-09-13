@@ -1,83 +1,190 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "./single.h"
+
+/**
+ * 初始化头指针
+ */
+node * init_header_node()
+{
+    node * header = (node *)malloc(sizeof(node));
+    assert(header != NULL);
+    header->next = NULL;
+    return header;
+}
+
+/**
+ * 头插法创建链表
+ */
+status init_chain_list_head(node * header)
+{
+    float start = 0;
+
+    for(start; start < INIT_SIZE; start++) {
+        node * new_node = (node *)malloc(sizeof(node));
+        assert(new_node != NULL);
+        new_node->data = start;
+        new_node->next = header->next;
+        header->next = new_node;
+    }
+
+    return OK;
+}
+
+/**
+ * 尾插法创建链表
+ */
+status init_chain_list_foot(node * header)
+{
+    float start = 0;
+    node * last = header;
+    for(start; start < INIT_SIZE; start++) {
+        node * new_node = (node *)malloc(sizeof(node));
+        new_node->data = start;
+        new_node->next = NULL;
+        last->next = new_node;
+        last = new_node;
+    }
+    return OK;
+}
+
+/**
+ * 遍历节点
+ */
+void traverse_chain_node(node * header)
+{
+    if(header == NULL) {
+        printf("element is empty\n");
+        exit(1);
+    }
+
+    node * this = header->next;
+
+    while(this != NULL) {
+        printf("%4.2f --> ",this->data);
+        this = this->next;
+    }
+    printf("NULL");
+    printf("\n");
+}
+
+/**
+ * 插入节点
+ */
+status insert_chain_node(node * header, int position, data_type value)
+{
+    if(position < 0) {
+        return WRONG;
+    }
+    
+    node * this, * prev;
+    this = prev = header;
+    int count = -1;
+    while(this != NULL && count < position) {
+        prev = this;
+        this = this->next;
+        count++;
+    }
+
+    if(this == NULL || count != position) {
+        return WRONG;
+    }
+    node * new_node = (node *)malloc(sizeof(node));
+    new_node->next = this->next;
+    new_node->data = value;
+    prev->next = new_node;
+    free(this);
+    return OK;
+}
+
+/**
+ * 删除节点
+ */
+status delete_chain_node(node * header, int position)
+{
+    node * this, * prev;
+    this = prev = header;
+
+    int start = -1;
+    while(this != NULL && start < position) {
+        start++;
+        prev = this;
+        this = this->next;
+    }
+
+    if(this == NULL || start != position) {
+        return WRONG;
+    }
+
+    prev->next = this->next;
+    free(this);
+    return OK;
+}
+
+/**
+ * 清除所有节点
+ */
+
+status clear_chain_node(node * header)
+{
+    node * this, * next;
+    this = next  = header->next;
+    while(this != NULL) {
+        next = this->next;
+        free(this);
+        this = next;
+    }
+    header->next = NULL;
+    return OK;
+}
+
+/**
+ * 获取节点
+ */
+node * get_chain_node(node * header, int position)
+{
+    int start = -1;
+    node * this = header;
+    while(this != NULL && start < position) {
+        start++;
+        this = this->next;
+    }
+
+    return this;
+}
+
+#if IS_DEBUG
 
 void main()
 {
-    single_node first_node, second_node, third_node, fourth_node, * root_pointer;
+    //初始化头指针
+    node * header = init_header_node();
 
-    root_pointer = &first_node;
+    //头插法
+    //init_chain_list_head(header);
+    //traverse_chain_node(header);
 
-    first_node.value = 1;
-    first_node.link = &second_node;
+    //尾插法
+    init_chain_list_foot(header);
+    traverse_chain_node(header);
 
-    second_node.value = 3;
-    second_node.link = &third_node;
+    //插入节点到指定位置
+    insert_chain_node(header, 9, -3);
+    traverse_chain_node(header);
 
-    third_node.value = 5;
-    third_node.link = &fourth_node;
+    //删除指定位置的节点
+    delete_chain_node(header, 1);
+    traverse_chain_node(header);
 
-    fourth_node.value = 7;
-    fourth_node.link = NULL;
+    //清除所有节点
+    //clear_chain_node(header);
+    //traverse_chain_node(header);
 
-    single_node * current =  insert_node(&root_pointer, 100);
-
-    int index = 1;
-    while(current != NULL) {
-        printf("the %d node, the value is %d\n", index++, current->value);
-        current = current->link;
-    }
+    // 获取节点
+    node * result = get_chain_node(header, 8);
+    assert(result != NULL);
+    printf("%4.2f\n", result->data);
 }
 
-single_node * insert_node(single_node ** direct_root, int insert_value)
-{
-    single_node * new_node_pointer = malloc(sizeof(single_node));  
-
-    //指针也是有类型的: * direct_root 得到的是一个single_node 类型的指针
-    single_node * root_pointer_origin = * direct_root;
-
-    /**
-     * 如果原有不存在任何节点
-     */
-    if(root_pointer_origin == NULL) {
-        root_pointer_origin = new_node_pointer;
-        new_node_pointer->value = insert_value;
-        new_node_pointer->link = NULL;
-        return root_pointer_origin;
-    }
-
-    /**
-     * 是否比最小的节点还要小
-     */
-    if(root_pointer_origin->value > insert_value) {
-        new_node_pointer->value = insert_value;
-        new_node_pointer->link = root_pointer_origin;
-        //改变根指针的指向 
-        root_pointer_origin = new_node_pointer;
-    } else {
-        /**
-         * 遍历直到比最后一个节点还大
-         */ 
-        single_node * current = root_pointer_origin;
-        single_node * previous = NULL;
-        while(current->value < insert_value) {
-            previous = current;
-            current = current->link;
-            if(current == NULL) {
-                break;
-            }
-        }
-
-        if(current == NULL) {
-            previous->link = new_node_pointer;
-            new_node_pointer->link = NULL;
-        } else {
-            previous->link = new_node_pointer;
-            new_node_pointer->link = current;
-        }
-        new_node_pointer->value = insert_value;
-    }
-
-
-    return root_pointer_origin;
-}
+#endif
