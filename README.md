@@ -47,3 +47,8 @@
 
 #### <a href="./datastruct/linearlist/chain/doublelink/doublelink.c">demo1</a>
 实现了双向链表的增删改查
+
+## 线性表 - 链式存储 - 队列
+
+#### <a href="./datastruct/linearlist/chain/queue/queue.c">demo1</a>
+实现了队列的初始化、入队、出队、清空操作
