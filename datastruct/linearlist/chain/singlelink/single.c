@@ -3,188 +3,136 @@
 #include <assert.h>
 #include "./single.h"
 
-/**
- * 初始化头指针
- */
-node * init_header_node()
+node * init_chain_list_head()
 {
-    node * header = (node *)malloc(sizeof(node));
-    assert(header != NULL);
-    header->next = NULL;
-    return header;
-}
+    node * header_node = malloc(sizeof(node));
+    header_node->next = NULL;
+    header_node->data.length = 0;
 
-/**
- * 头插法创建链表
- */
-status init_chain_list_head(node * header)
-{
-    float start = 0;
-
+    int start = 0;
     for(start; start < INIT_SIZE; start++) {
-        node * new_node = (node *)malloc(sizeof(node));
-        assert(new_node != NULL);
-        new_node->data = start;
-        new_node->next = header->next;
-        header->next = new_node;
+        node * new_node = (node *)malloc(sizeof(node));  
+        new_node->data.data = start;
+        new_node->next = header_node->next;
+        header_node->next = new_node;
+        header_node->data.length++;
     }
 
-    return OK;
+    return header_node;
 }
 
-/**
- * 尾插法创建链表
- */
-status init_chain_list_foot(node * header)
+node * init_chain_list_tail()
 {
-    float start = 0;
-    node * last = header;
+    node * header_node = malloc(sizeof(node));
+    header_node->next = NULL;
+    header_node->data.length = 0;
+
+    int start = 0;
+    node * prev = header_node;
     for(start; start < INIT_SIZE; start++) {
-        node * new_node = (node *)malloc(sizeof(node));
-        new_node->data = start;
+        node * new_node = (node * )malloc(sizeof(node));
+        new_node->data.data = start;
         new_node->next = NULL;
-        last->next = new_node;
-        last = new_node;
+        prev->next = new_node;
+        prev = new_node;
+        header_node->data.length++;
     }
-    return OK;
+
+    return header_node;
 }
 
-/**
- * 遍历节点
- */
-void traverse_chain_node(node * header)
+node * delete_node(node * header_node, int position)
 {
-    if(header == NULL) {
-        printf("element is empty\n");
-        exit(1);
-    }
+    assert(position >= 0);
+    assert(position < header_node->data.length);
+    assert(header_node->data.length != 0);
 
-    node * this = header->next;
-
-    while(this != NULL) {
-        printf("%4.2f --> ",this->data);
-        this = this->next;
-    }
-    printf("NULL");
-    printf("\n");
-}
-
-/**
- * 插入节点
- */
-status insert_chain_node(node * header, int position, data_type value)
-{
-    if(position < 0) {
-        return WRONG;
-    }
-    
-    node * this, * prev;
-    this = prev = header;
-    int count = -1;
-    while(this != NULL && count < position) {
-        prev = this;
-        this = this->next;
-        count++;
-    }
-
-    if(this == NULL || count != position) {
-        return WRONG;
-    }
-    node * new_node = (node *)malloc(sizeof(node));
-    new_node->next = this->next;
-    new_node->data = value;
-    prev->next = new_node;
-    free(this);
-    return OK;
-}
-
-/**
- * 删除节点
- */
-status delete_chain_node(node * header, int position)
-{
-    node * this, * prev;
-    this = prev = header;
-
-    int start = -1;
+    node * this = header_node->next, * prev = header_node;
+    int start = 0;
     while(this != NULL && start < position) {
-        start++;
         prev = this;
         this = this->next;
+        start++;
     }
 
-    if(this == NULL || start != position) {
-        return WRONG;
-    }
-
+    assert(this != NULL);
+    assert(start == position);
+    
     prev->next = this->next;
     free(this);
-    return OK;
+    header_node->data.length--;
+
+    return header_node;
 }
 
-/**
- * 清除所有节点
- */
-
-status clear_chain_node(node * header)
+node * insert_node(node * header_node, int position, data_type value)
 {
-    node * this, * next;
-    this = next  = header->next;
+    assert(position >= 0);
+
+    node * this = header_node->next, * prev = header_node;
+    int start = 0;
+    while(this != NULL && start < position) {
+        prev = this;
+        this = this->next;
+        start++;
+    }
+
+    assert(this != NULL);
+    assert(start == position);
+
+    node * new_node = (node *)malloc(sizeof(node));
+    new_node->data.data = value;
+    new_node->next = this;
+    prev->next = new_node;
+    header_node->data.length++;
+
+    return header_node;
+}
+
+node * clear_node(node * header_node)
+{
+    assert(header_node != NULL);
+
+    node * this = header_node, * next = NULL;
     while(this != NULL) {
         next = this->next;
         free(this);
         this = next;
     }
-    header->next = NULL;
-    return OK;
+
+    header_node->data.length = 0;
+    header_node->next = NULL;
+    return header_node;
 }
 
-/**
- * 获取节点
- */
-node * get_chain_node(node * header, int position)
+void show_list(node * header_node)
 {
-    int start = -1;
-    node * this = header;
-    while(this != NULL && start < position) {
-        start++;
+    assert(header_node != NULL);
+    node * this = header_node->next;
+    printf("( length : %d )", header_node->data.length);
+    while(this != NULL) {
+        printf("%d --> ", this->data.data);
         this = this->next;
     }
-
-    return this;
+    printf("NULL\n");
 }
 
 #if IS_DEBUG
-
 void main()
 {
-    //初始化头指针
-    node * header = init_header_node();
+    node * header_node = init_chain_list_head();
+    show_list(header_node);
 
-    //头插法
-    //init_chain_list_head(header);
-    //traverse_chain_node(header);
+    header_node = init_chain_list_tail();
+    show_list(header_node);
 
-    //尾插法
-    init_chain_list_foot(header);
-    traverse_chain_node(header);
+    header_node = delete_node(header_node, 2);
+    show_list(header_node);
 
-    //插入节点到指定位置
-    insert_chain_node(header, 9, -3);
-    traverse_chain_node(header);
+    header_node = insert_node(header_node, 8, 100);
+    show_list(header_node);
 
-    //删除指定位置的节点
-    delete_chain_node(header, 1);
-    traverse_chain_node(header);
-
-    //清除所有节点
-    //clear_chain_node(header);
-    //traverse_chain_node(header);
-
-    // 获取节点
-    node * result = get_chain_node(header, 8);
-    assert(result != NULL);
-    printf("%4.2f\n", result->data);
+    header_node = clear_node(header_node);
+    show_list(header_node);
 }
-
 #endif
