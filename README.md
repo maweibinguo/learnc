@@ -31,6 +31,10 @@
 #### <a href="./io/component/main.c">demo2</a>
 实现了模块化开发，以双向链表的形式实现了节点的增、删、改、查,并将数据存储到文件中;
 
+## socket
+#### <a href="./server/server.c">demo1-server.c</a>
+回声服务器，客户端发送什么数据，服务器端原样返回(<a href="./server/client.c">client.c</a>),./client.o 要发送的内容
+
 # 数据结构
 
 ## 线性表 - 顺序存储 - 顺序表

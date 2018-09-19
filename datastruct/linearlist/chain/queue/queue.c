@@ -79,6 +79,14 @@ int clear_queue(queue * queue_list)
     return OK;
 }
 
+int destry_queue(queue * queue_list)
+{
+    int result = clear_queue(queue_list);
+    assert(result == OK);
+    free(queue_list);
+    return OK;
+}
+
 #if IS_DEBUG
 void main()
 {
@@ -92,16 +100,20 @@ void main()
     push(queue_list, 3);
 
     //清空队列
-    clear_queue(queue_list);
+    //clear_queue(queue_list);
 
     //遍历
     show_queue(queue_list);
 
     //出队
-    node first = pop(queue_list);
+    /*node first = pop(queue_list);
     first = pop(queue_list);
     first = pop(queue_list);
     first = pop(queue_list);
-    printf("%d\n", first.data);
+    printf("%d\n", first.data);*/
+
+    //销毁队列
+    destry_queue(queue_list);
+    show_queue(queue_list);
 }
 #endif
